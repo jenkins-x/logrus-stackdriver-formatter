@@ -52,7 +52,7 @@ func TestStackSkip(t *testing.T) {
 		"context": map[string]interface{}{
 			"reportLocation": map[string]interface{}{
 				"filePath":     "testing/testing.go",
-				"lineNumber":   909.0,
+				"lineNumber":   865.0,
 				"functionName": "tRunner",
 			},
 		},
