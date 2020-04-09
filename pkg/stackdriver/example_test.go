@@ -1,10 +1,10 @@
-package stackdriver_test
+package stackdriver
 
 import (
 	"os"
 	"strconv"
 
-	stackdriver "github.com/TV4/logrus-stackdriver-formatter"
+	stackdriver "github.com/jenkins-x/logrus-stackdriver-formatter"
 	"github.com/sirupsen/logrus"
 )
 

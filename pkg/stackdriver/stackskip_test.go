@@ -1,3 +1,5 @@
+// +build unit
+
 package stackdriver
 
 import (
@@ -6,7 +8,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/TV4/logrus-stackdriver-formatter/test"
+	"github.com/jenkins-x/logrus-stackdriver-formatter"
 	"github.com/kr/pretty"
 	"github.com/sirupsen/logrus"
 )

@@ -1,4 +1,4 @@
-package test
+package stackdriver
 
 import "github.com/sirupsen/logrus"
 
