@@ -8,10 +8,17 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/jenkins-x/logrus-stackdriver-formatter/test"
 	"github.com/kr/pretty"
 	"github.com/sirupsen/logrus"
 )
+
+type logWrapper struct {
+	Logger *logrus.Logger
+}
+
+func (l *logWrapper) error(msg string) {
+	l.Logger.Error(msg)
+}
 
 func TestStackSkip(t *testing.T) {
 	var out bytes.Buffer
@@ -21,30 +28,32 @@ func TestStackSkip(t *testing.T) {
 	logger.Formatter = NewFormatter(
 		WithService("test"),
 		WithVersion("0.1"),
-		WithStackSkip("github.com/jenkins-x/logrus-stackdriver-formatter/test"),
+		WithStackSkip("github.com/jenkins-x/logrus-stackdriver-formatter/pkg/stackdriver"),
 	)
 
-	mylog := test.LogWrapper{
+	mylog := logWrapper{
 		Logger: logger,
 	}
 
-	mylog.Error("my log entry")
+	mylog.error("my log entry")
 
 	var got map[string]interface{}
 	json.Unmarshal(out.Bytes(), &got)
+	got["timestamp"] = "2020-01-01T00:00:00.000000Z"
 
 	want := map[string]interface{}{
-		"severity": "ERROR",
-		"message":  "my log entry",
+		"severity":  "ERROR",
+		"message":   "my log entry",
+		"timestamp": "2020-01-01T00:00:00.000000Z",
 		"serviceContext": map[string]interface{}{
 			"service": "test",
 			"version": "0.1",
 		},
 		"context": map[string]interface{}{
 			"reportLocation": map[string]interface{}{
-				"filePath":     "github.com/jenkins-x/logrus-stackdriver-formatter/stackskip_test.go",
-				"lineNumber":   29.0,
-				"functionName": "TestStackSkip",
+				"filePath":     "testing/testing.go",
+				"lineNumber":   909.0,
+				"functionName": "tRunner",
 			},
 		},
 	}
