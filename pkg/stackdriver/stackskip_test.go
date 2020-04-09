@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/jenkins-x/logrus-stackdriver-formatter"
+	"github.com/jenkins-x/logrus-stackdriver-formatter/test"
 	"github.com/kr/pretty"
 	"github.com/sirupsen/logrus"
 )
@@ -21,7 +21,7 @@ func TestStackSkip(t *testing.T) {
 	logger.Formatter = NewFormatter(
 		WithService("test"),
 		WithVersion("0.1"),
-		WithStackSkip("github.com/TV4/logrus-stackdriver-formatter/test"),
+		WithStackSkip("github.com/jenkins-x/logrus-stackdriver-formatter/test"),
 	)
 
 	mylog := test.LogWrapper{
@@ -42,7 +42,7 @@ func TestStackSkip(t *testing.T) {
 		},
 		"context": map[string]interface{}{
 			"reportLocation": map[string]interface{}{
-				"filePath":     "github.com/TV4/logrus-stackdriver-formatter/stackskip_test.go",
+				"filePath":     "github.com/jenkins-x/logrus-stackdriver-formatter/stackskip_test.go",
 				"lineNumber":   29.0,
 				"functionName": "TestStackSkip",
 			},
