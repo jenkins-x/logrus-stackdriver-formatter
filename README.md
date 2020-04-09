@@ -1,10 +1,5 @@
 # logrus-stackdriver-formatter
 
-[![Build Status](https://travis-ci.org/TV4/logrus-stackdriver-formatter.svg?branch=master)](https://travis-ci.org/TV4/logrus-stackdriver-formatter)
-[![Go Report Card](https://goreportcard.com/badge/github.com/TV4/logrus-stackdriver-formatter)](https://goreportcard.com/report/github.com/TV4/logrus-stackdriver-formatter)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat)](https://godoc.org/github.com/TV4/logrus-stackdriver-formatter)
-[![License MIT](https://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/TV4/logrus-stackdriver-formatter#license)
-
 [logrus](https://github.com/sirupsen/logrus) formatter for Stackdriver.
 
 In addition to supporting level-based logging to Stackdriver, for Error, Fatal and Panic levels it will append error context for [Error Reporting](https://cloud.google.com/error-reporting/).
@@ -12,7 +7,7 @@ In addition to supporting level-based logging to Stackdriver, for Error, Fatal a
 ## Installation
 
 ```shell
-go get -u github.com/TV4/logrus-stackdriver-formatter
+go get -u github.com/jenkins-x/logrus-stackdriver-formatter
 ```
 
 ## Usage
@@ -22,7 +17,7 @@ package main
 
 import (
     "github.com/sirupsen/logrus"
-    stackdriver "github.com/TV4/logrus-stackdriver-formatter"
+    stackdriver "github.com/jenkins-x/logrus-stackdriver-formatter"
 )
 
 var log = logrus.New()
@@ -50,11 +45,44 @@ Here's a sample entry (prettified) from the example:
   "severity": "ERROR",
   "context": {
     "reportLocation": {
-      "filePath": "github.com/TV4/logrus-stackdriver-formatter/example_test.go",
+      "filePath": "github.com/jenkins-x/logrus-stackdriver-formatter/example_test.go",
       "lineNumber": 21,
       "functionName": "ExampleLogError"
     }
   }
+}
+```
+
+Here's an example test:
+```golang
+package stackdriver
+
+import (
+        "os"
+        "strconv"
+
+        stackdriver "github.com/jenkins-x/logrus-stackdriver-formatter"
+        "github.com/sirupsen/logrus"
+)
+
+func ExampleLogError() {
+        logger := logrus.New()
+        logger.Out = os.Stdout
+        logger.Formatter = stackdriver.NewFormatter(
+                stackdriver.WithService("test-service"),
+                stackdriver.WithVersion("v0.1.0"),
+        )
+
+        logger.Info("application up and running")
+
+        _, err := strconv.ParseInt("text", 10, 64)
+        if err != nil {
+                logger.WithError(err).Errorln("unable to parse integer")
+        }
+
+        // Output:
+        // {"message":"application up and running","severity":"INFO","context":{}}
+        // {"serviceContext":{"service":"test-service","version":"v0.1.0"},"message":"unable to parse integer: strconv.ParseInt: parsing \"text\": invalid syntax","severity":"ERROR","context":{"reportLocation":{"filePath":"github.com/jenkins-x/logrus-stackdriver-formatter/example_test.go","lineNumber":23,"functionName":"ExampleLogError"}}}
 }
 ```
 
