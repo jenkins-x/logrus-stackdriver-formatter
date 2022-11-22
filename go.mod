@@ -1,6 +1,6 @@
 module github.com/jenkins-x/logrus-stackdriver-formatter
 
-go 1.18
+go 1.19
 
 require (
 	github.com/go-stack/stack v1.8.1

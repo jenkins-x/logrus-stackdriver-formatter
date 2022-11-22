@@ -1,3 +1,4 @@
+//go:build unit
 // +build unit
 
 package stackdriver
@@ -52,7 +53,7 @@ func TestStackSkip(t *testing.T) {
 		"context": map[string]interface{}{
 			"reportLocation": map[string]interface{}{
 				"filePath":     "testing/testing.go",
-				"lineNumber":   865.0,
+				"lineNumber":   float64(1446),
 				"functionName": "tRunner",
 			},
 		},
