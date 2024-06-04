@@ -100,6 +100,7 @@ tidy-deps: ## Cleans up dependencies
 make-reports-dir:
 	mkdir -p $(REPORTS_DIR)
 
+.PHONY: test
 test: ## Run tests with the "unit" build tag
 	KUBECONFIG=/cluster/connections/not/allowed CGO_ENABLED=$(CGO_ENABLED) $(GOTEST) --tags=unit -failfast -short ./... $(TEST_BUILDFLAGS)
 
