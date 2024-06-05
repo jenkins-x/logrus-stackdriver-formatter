@@ -164,12 +164,6 @@ importfmt: get-fmt-deps
 	@echo "Formatting the imports..."
 	goimports -w $(GO_DEPENDENCIES)
 
-.PHONY: lint
-lint: ## Lint the code
-	./hack/gofmt.sh
-	./hack/linter.sh
-	./hack/generate.sh
-
 .PHONY: all
 all: fmt build test lint
 
