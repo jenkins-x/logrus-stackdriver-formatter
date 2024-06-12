@@ -1,3 +1,4 @@
+//go:build unit
 // +build unit
 
 package stackdriver
@@ -6,12 +7,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"reflect"
 	"testing"
 
-	"github.com/kr/pretty"
-
 	"github.com/sirupsen/logrus"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestFormatter(t *testing.T) {
@@ -32,9 +31,7 @@ func TestFormatter(t *testing.T) {
 		var got map[string]interface{}
 		json.Unmarshal(out.Bytes(), &got)
 
-		if !reflect.DeepEqual(got, tt.out) {
-			t.Errorf("unexpected output = %# v; want = %# v", pretty.Formatter(got), pretty.Formatter(tt.out))
-		}
+		assert.Equal(t, tt.out, got)
 	}
 }
 
@@ -73,8 +70,8 @@ var formatterTests = []struct {
 				},
 				"reportLocation": map[string]interface{}{
 					"filePath":     "github.com/jenkins-x/logrus-stackdriver-formatter/pkg/stackdriver/formatter_test.go",
-					"lineNumber":   61.0,
-					"functionName": "glob..func2",
+					"lineNumber":   58.0,
+					"functionName": "init.func2",
 				},
 			},
 		},
@@ -99,8 +96,8 @@ var formatterTests = []struct {
 				},
 				"reportLocation": map[string]interface{}{
 					"filePath":     "github.com/jenkins-x/logrus-stackdriver-formatter/pkg/stackdriver/formatter_test.go",
-					"lineNumber":   87.0,
-					"functionName": "glob..func3",
+					"lineNumber":   84.0,
+					"functionName": "init.func3",
 				},
 			},
 		},
@@ -132,8 +129,8 @@ var formatterTests = []struct {
 				},
 				"reportLocation": map[string]interface{}{
 					"filePath":     "github.com/jenkins-x/logrus-stackdriver-formatter/pkg/stackdriver/formatter_test.go",
-					"lineNumber":   117.0,
-					"functionName": "glob..func4",
+					"lineNumber":   114.0,
+					"functionName": "init.func4",
 				},
 			},
 		},
