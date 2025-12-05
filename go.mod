@@ -5,7 +5,7 @@ go 1.22
 require (
 	github.com/TV4/logrus-stackdriver-formatter v0.1.0
 	github.com/go-stack/stack v1.8.1
-	github.com/sirupsen/logrus v1.9.0
+	github.com/sirupsen/logrus v1.9.1
 	github.com/stretchr/testify v1.7.0
 )
 
